@@ -4,21 +4,53 @@ import Checkbox from "./Checkbox";
 import Button from "./Button";
 import calculatorImg from "../assets/images/icon-calculator.svg";
 
-interface IFormInput {
+interface FormInputs {
   mortgageAmount: string;
   mortgageTerm: string;
   interestRate: string;
-  interestOnly: string;
-  repayment: string;
+  interestOnly: boolean;
+  repayment: boolean;
 }
 
 const Form = () => {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  } = useForm<FormInputs>();
+
+  const calculateRepayment = (data: FormInputs) => {
+    const {
+      mortgageAmount,
+      mortgageTerm,
+      interestRate,
+      interestOnly,
+      repayment,
+    } = data;
+
+    const monthlyInterestRate = parseInt(interestRate) / 100 / 12;
+    const numberOfPayments = parseInt(mortgageTerm) * 12;
+
+    const monthlyRepayment =
+      (parseInt(mortgageAmount) * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+
+    console.log("monthlyRepayment.toFixed(2) : ", monthlyRepayment.toFixed(2));
+
+    return monthlyRepayment.toFixed(2);
+  };
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    console.log("calculateRepayment : ", calculateRepayment(data));
+    console.log(data);
+  };
+
+  const checkRepayment = watch("repayment", false);
+  const checkInterestOnly = watch("interestOnly", false);
+
+  console.log("checkRepayment : ", checkRepayment);
+  console.log("checkInterestOnly : ", checkInterestOnly);
 
   return (
     <form
@@ -77,7 +109,7 @@ const Form = () => {
             label="Repayment"
             name="repayment"
             register={register}
-            required={true}
+            required={!checkInterestOnly}
             error={errors.repayment}
           />
         </div>
@@ -86,7 +118,7 @@ const Form = () => {
             label="Interest Only"
             name="interestOnly"
             register={register}
-            required={true}
+            required={!checkRepayment}
             error={errors.interestOnly}
           />
         </div>
