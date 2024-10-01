@@ -6,7 +6,10 @@ interface Props {
 
 const Container: FC<Props> = ({ children }) => {
   return (
-    <div className="container mx-auto p-8 min-h-screen bg-[#FFFFFF] rounded-lg">
+    <div
+      className="container mx-auto bg-[#FFFFFF] "
+      style={{ borderRadius: "30px" }}
+    >
       {children}
     </div>
   );
