@@ -1,13 +1,8 @@
-import ReactDOM from "react-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
-
-interface MortageType {
-  interestOnly: boolean;
-  repayment: boolean;
-}
+import calculatorImg from "../assets/images/icon-calculator.svg";
 
 interface IFormInput {
   mortgageAmount: string;
@@ -26,7 +21,10 @@ const Form = () => {
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6 w-full mt-6"
+    >
       <div className="text-left">
         <div className="mb-4">
           <label className="text-[#4D6673] text-lg">Mortgage Amount</label>
@@ -94,6 +92,7 @@ const Form = () => {
         </div>
       </div>
       <Button
+        calculatorImg={calculatorImg}
         label="Calculate Repayments"
         type="submit"
         backgroundColor="bg-[#D9DB30]"

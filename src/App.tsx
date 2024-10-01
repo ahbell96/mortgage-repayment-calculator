@@ -5,7 +5,6 @@ import illustration from "./assets/images/illustration-empty.svg";
 
 function App() {
   return (
-    // <div className="flex text-[#fff]">
     <Container>
       <div className="grid grid-cols-2">
         <div className="flex flex-col align-center items-center my-6 p-8">
@@ -35,8 +34,6 @@ function App() {
         </div>
       </div>
     </Container>
-
-    // </div>
   );
 }
 

@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   backgroundColor?: string;
+  calculatorImg: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   className = "",
   backgroundColor = "",
+  calculatorImg,
 }) => {
   const bc = backgroundColor ? backgroundColor : "";
   return (
@@ -32,6 +34,7 @@ const Button: React.FC<ButtonProps> = ({
       } ${className}`}
       style={{ maxWidth: "375px" }}
     >
+      {type == "submit" && <img src={calculatorImg} alt="calculator icon" />}
       {label}
     </button>
   );
