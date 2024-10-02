@@ -3,6 +3,7 @@ import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
 import calculatorImg from "../assets/images/icon-calculator.svg";
+import { Calculations } from "../App";
 
 interface FormInputs {
   mortgageAmount: string;
@@ -12,7 +13,12 @@ interface FormInputs {
   repayment: boolean;
 }
 
-const Form = () => {
+interface Props {
+  calculation: Calculations;
+  setCalculation: (data: Calculations) => void;
+}
+
+const Form = ({ calculation, setCalculation }: Props) => {
   const {
     register,
     watch,
@@ -29,28 +35,45 @@ const Form = () => {
       repayment,
     } = data;
 
-    const monthlyInterestRate = parseInt(interestRate) / 100 / 12;
-    const numberOfPayments = parseInt(mortgageTerm) * 12;
+    const principal = parseInt(mortgageAmount);
+    const termInMonths = parseInt(mortgageTerm) * 12;
+    const annualInterestRate = parseFloat(interestRate);
+    const monthlyInterestRate = annualInterestRate / 100 / 12;
 
-    const monthlyRepayment =
-      (parseInt(mortgageAmount) * monthlyInterestRate) /
-      (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+    let monthlyRepayment;
 
-    console.log("monthlyRepayment.toFixed(2) : ", monthlyRepayment.toFixed(2));
+    // Standard loan with interest
+    if (repayment) {
+      monthlyRepayment =
+        (principal * monthlyInterestRate) /
+        (1 - Math.pow(1 + monthlyInterestRate, -termInMonths));
+    } else if (interestOnly) {
+      monthlyRepayment = 0;
+    } else {
+      monthlyRepayment = -1;
+      console.log("how.");
+    }
+
+    // Total repayment over the full term
+    const totalRepayment = monthlyRepayment * termInMonths;
+
+    const mortgageCalculations = {
+      ...calculation,
+      monthlyRepayment: monthlyRepayment.toFixed(2),
+      totalRepayment: totalRepayment.toFixed(2),
+      calculated: true,
+    };
+
+    setCalculation(mortgageCalculations);
 
     return monthlyRepayment.toFixed(2);
   };
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log("calculateRepayment : ", calculateRepayment(data));
-    console.log(data);
-  };
+  const onSubmit: SubmitHandler<FormInputs> = (data) =>
+    calculateRepayment(data);
 
   const checkRepayment = watch("repayment", false);
   const checkInterestOnly = watch("interestOnly", false);
-
-  console.log("checkRepayment : ", checkRepayment);
-  console.log("checkInterestOnly : ", checkInterestOnly);
 
   return (
     <form

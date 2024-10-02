@@ -2,8 +2,41 @@ import "./App.css";
 import Form from "./components/Form";
 import Container from "./components/Container";
 import illustration from "./assets/images/illustration-empty.svg";
+import { useEffect, useState } from "react";
+import Results from "./components/Results";
+
+export interface Calculations {
+  monthlyRepayment: string;
+  totalRepayment: string;
+  calculated: boolean;
+}
 
 function App() {
+  const [calculation, setCalculation] = useState({
+    calculated: false,
+    monthlyRepayment: "",
+    totalRepayment: "",
+  });
+
+  const updateCalculation = (newCalculation: Calculations) =>
+    setCalculation(newCalculation);
+
+  const resetCalculation = () =>
+    setCalculation({
+      calculated: false,
+      monthlyRepayment: "",
+      totalRepayment: "",
+    });
+
+  const resetAll = () => {
+    resetCalculation();
+    // want to reset fields also.
+  };
+
+  useEffect(() => {
+    console.log("calculation on change : ", calculation);
+  }, [calculation]);
+
   return (
     <Container>
       <div className="grid grid-cols-2">
@@ -12,26 +45,9 @@ function App() {
             <h2 className="text-black text-3xl">Mortgage Calculator</h2>
             <a>Clear all</a>
           </div>
-          <Form />
+          <Form calculation={calculation} setCalculation={updateCalculation} />
         </div>
-
-        <div
-          className="bg-[#133040] text-[#fff] flex flex-col justify-center items-center content-center"
-          style={{
-            borderBottomLeftRadius: "100px",
-            borderTopRightRadius: "30px",
-            borderBottomRightRadius: "30px",
-          }}
-        >
-          <img src={illustration} alt="Calculation Equipment" />
-          <div className="flex flex-col gap-6">
-            <h2 className="text-3xl">Results shown here</h2>
-            <p>
-              Complete the form and click "calculate repayments" to see what
-              your monthly repayments would be.
-            </p>
-          </div>
-        </div>
+        <Results illustration={illustration} calculation={calculation} />
       </div>
     </Container>
   );
