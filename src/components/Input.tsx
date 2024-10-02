@@ -27,8 +27,11 @@ const Input: React.FC<InputProps> = ({
   return (
     <div className={`form-control ${className}`}>
       <label
-        className={`input input-bordered border-[#A3B6BE] flex ${flexDirection} gap-2 px-0 my-auto`}
         htmlFor={name}
+        className={`input input-bordered border-[#A3B6BE] flex ${flexDirection} gap-2 px-0 my-auto`}
+        style={{
+          paddingLeft: flexDirection === "flex-row-reverse" ? "10px" : "0px",
+        }}
       >
         <div
           className="bg-[#E4F4FC] border flex items-center px-4 font-semibold text-xl"

@@ -1,4 +1,3 @@
-import React from "react";
 import { Calculations } from "../App";
 
 interface Props {
@@ -58,7 +57,7 @@ const Results = ({ illustration, calculation }: Props) => {
         </div>
       ) : (
         <div
-          className="flex flex-col justify-center items-center content-center h-full"
+          className="flex flex-col justify-center items-center content-center h-full mx-8"
           style={{
             borderBottomLeftRadius: "100px",
             borderTopRightRadius: "30px",
@@ -66,9 +65,9 @@ const Results = ({ illustration, calculation }: Props) => {
           }}
         >
           <img src={illustration} alt="Calculation Equipment" />
-          <div className="flex flex-col gap-6">
-            <h2 className="text-3xl">Results shown here</h2>
-            <p>
+          <div className="flex flex-col gap-6 my-4">
+            <h2 className="text-3xl font-bold">Results shown here</h2>
+            <p className="text-[#92B1C4]">
               Complete the form and click "calculate repayments" to see what
               your monthly repayments would be.
             </p>

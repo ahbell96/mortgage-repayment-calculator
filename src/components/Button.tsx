@@ -29,10 +29,10 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${bc} btn btn-${variant} btn-${size} text-xl font-bold content-center rounded-full ${
+      className={`${bc} btn btn-${variant} btn-${size} text-xl font-bold content-center rounded-full p-8 ${
         disabled ? "btn-disabled" : ""
       } ${className}`}
-      style={{ maxWidth: "375px" }}
+      style={{ maxWidth: "320px" }}
     >
       {type == "submit" && <img src={calculatorImg} alt="calculator icon" />}
       {label}
